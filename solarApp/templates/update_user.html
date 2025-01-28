@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Update Profile</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Update User Profile</p>
+        </div>
+    </div>
+</header>
+<!-- Section-->
+<!-- <section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"> -->
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 ofsset-md-3">
+                        <br/><br/>
+            
+                        <h2>Update User Profile</h2>
+
+
+<form method="post" action="{% url 'update_user' %}">
+        {% csrf_token %}
+        {{user_form.as_p}}
+        <br/><br/>
+       
+        <button type="submit" class="btn btn-primary">Update profile</button>
+        <br/><br/>
+        <a href="{% url 'update_info'%}" class="btn btn-outline-info mt-5 " >Update Profile Information</a>
+
+        <a href="{% url 'shipping_address' %}" class="btn btn-outline-info mt-5">Update Shipping Details</a>
+
+        <a href="{% url 'update_password'%}" class="btn btn-outline-secondary mt-5 " >Change Password</a>
+</form>
+
+                    </div>
+                </div>
+        
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+
+<br/><br/>
+</div>
+</section>
+
+{% endblock %}

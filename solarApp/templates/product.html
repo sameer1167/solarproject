@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="{{product.Image.url}}" class="img-fluid rounded-start" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{product.name}}</h5>
+          <p class="card-text">{{product.discription}}</p>
+
+          
+
+            {% if product.is_sale %}
+            <!-- Sale badge-->
+            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 1rem">Sale !!!</div>
+            
+                <div>
+                    <!-- Product price-->
+                     Discounted price -
+                    <strike>
+                    INR {{product.price}}
+                    </strike>
+                    &nbsp;
+                    INR {{product.sale_price}} 
+                </div>
+            </div>
+
+            {% else %}
+            <p class="card-text"> INR {{product.price}}</p>
+            {% endif %}
+
+
+            <div class="row justity-content-center">
+            <div class="col-md-8">Quantity</div>
+            <div class="col-md-6">
+            <select class="form-select form-select-sm" id="qty-cart">
+              
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              
+            </select>
+          </div>
+          </div>
+
+
+            <br/>
+          <button type="button" value="{{ product.id }}" class="btn btn-secondary" id="add-cart">Add cart</button>
+
+          <p class="card-text"><small class="text-body-secondary">Last awds updated </small></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Add jQuery before custom script -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Now add the custom script -->
+  <script>
+    //check if add to cart button is pressed
+    $(document).on('click', '#add-cart', function(e){
+      e.preventDefault();
+      $.ajax({
+        type: 'POST',
+        url : "{% url 'cart_add' %}",
+        data: {
+          product_id : $('#add-cart').val(),      //check if this product_id is taking data or not
+          product_qty : $('#qty-cart option:selected').text(),      //check number of same product quantity
+          csrfmiddlewaretoken:'{{ csrf_token }}',
+          action: 'post'
+        },
+
+        success: function(json){
+          // console.log(json)
+          document.getElementById("cart_quantity").textContent=json.qty
+          location.reload();
+        },
+
+        error: function(xhr, errmsg, err){
+           
+        }
+
+        
+
+      });
+
+
+    })
+  </script>
+  
+
+{% endblock %}
