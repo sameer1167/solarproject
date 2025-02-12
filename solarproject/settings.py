@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#!zufopcn3u7g=kkn@k+&8o@gf@yieea2fiy2&-9&vmr6e&7x('
+SECRET_KEY = config('SECRET_KEY' , default='fallback-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,6 +43,7 @@ INSTALLED_APPS = [
     'solarApp',
     'cart',
     'payment',
+    'ChattBot'
 ]
 
 MIDDLEWARE = [
@@ -81,14 +84,15 @@ WSGI_APPLICATION = 'solarproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Solardatabase',
-        'USER':'root',
-        'PASSWORD':'Sameer@1167',
-        'HOST':'127.0.0.1',
-        'PORT':'3306',
+        'NAME':config('DB_NAME', default='default_db'),
+        'USER':config('DB_USER',default='root'),
+        'PASSWORD':config('DB_PASSWORD',default=''),
+        'HOST':config('DB_HOST',default='localhost'),
+        'PORT':config('DB_PORT',default='3306'),
     }
 }
-
+# Allow Docker to access Django
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost']
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -134,3 +138,17 @@ MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'sheosam03@gmail.com'
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')  # Paste the app password here
+DEFAULT_FROM_EMAIL = 'sheosam03@gmail.com'
+
+
+# google-dilogue-flow
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# DIALOGFLOW_KEY = os.path.join(BASE_DIR, config("DIALOGFLOW_KEY_PATH"))

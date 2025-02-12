@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Processing Order</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">this is temporary</p>
+                </div>
+            </div>
+        </header>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <br></br>
+                    <div class="card">
+                        <div class="card-header bg-dark text-white">
+                          Order Summary
+                        </div>
+                        <div class="card-body">
+                            {% for product in cart_products %}
+                                <br>
+                                {{ product.name}} :
+                                    {%if product.is_sale%}
+                                        INR - {{product.sale_price}}
+                                    {%else%}
+                                        INR - {{product.price}}
+                                    {%endif%}
+                                </br>
+                                {% for key, value in quantities.items %}       <!-- '3':2 , '5':3  ->this is the way key value if product id and its quantity is saved in session back-end  -->
+
+                                    {% if key == product.id|slugify %}        <!-- //slugify turns string into integer -->
+                                        Quantity : {{ value }}
+                                    {% endif %}
+                                {% endfor %}
+
+                                </br>
+                            {% endfor %}
+                            <br>
+                            <strong>Total  : {{totals}}</strong>
+                            </br><br>
+                            <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline-secondary">Update List</a>
+                            
+                        </div>
+                    </div>
+                                 </br>
+                    
+                                 <br></br>
+
+
+
+
+                    <div class="card">
+                        <div class="card-header bg-dark text-white">
+                          Shipping Information</div>
+                        <div class="card-body">
+                            Name : {{F_shipping_info.Full_name}}</br>
+                            Email : {{F_shipping_info.Email}}</br>
+                            Address 1 :{{F_shipping_info.address_1}}</br>
+                            Address 2 :{{F_shipping_info.address_2}}</br>
+                            City :{{F_shipping_info.city}}</br>
+                            State :{{F_shipping_info.state}}</br>
+                            Pin Code :{{F_shipping_info.zipcode}}</br>
+                            Country :{{F_shipping_info.country}}</br>
+                            
+                        
+                            <div align="right">
+                                <a href="{% url 'checkout' %}" class="btn btn-sm btn-outline-secondary">Update Shipping Info</a>
+                            </div>
+                        </div>  
+                        
+                    </div>
+                    <br></br>
+
+                    <div class="card">
+                        <div class="card-header bg-dark text-white">
+                          Billing Info</div>
+                          <form method="POST" action="{% url 'process_order' %}">
+                            {% csrf_token %}
+                            {{billing_form.as_p}}
+
+                    </div>        
+                    <br></br>
+                    <div class="card">
+                        <button type="submit" class="btn btn-success">Pay Now</button> 
+                    </div>
+                    </form>
+                </div> 
+                
+        
+                <br></br>
+
+            
+                
+
+            </div>
+        </div>
+        <br></br>
+
+
+        
+{% endblock %}    
+
+        

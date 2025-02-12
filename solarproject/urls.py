@@ -24,6 +24,7 @@ urlpatterns = [
     path('cart/',include('cart.urls')),
     path('',include('solarApp.urls')),
     path('payment/',include('payment.urls')),
+    # path('ChattBot/',include('ChattBot.urls'))
 
     
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

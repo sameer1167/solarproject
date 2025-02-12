@@ -92,7 +92,7 @@ def register_user(request):
             user=authenticate(username=username,password=password)
             login(request,user)
             messages.success(request,('You have been SignUp successfuly'))
-            return redirect('home')
+            return redirect('shipping_address')
         else:
             # messages.success(request,('Woops... there was problem'))
             for error in list(form.errors.values()):                    # this code is for showing error if form is not valid

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Shipping Status</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Order Information</p>
+        </div>
+    </div>
+</header>
+<br></br>
+<div class="container">
+    <div class="row">
+        <center>
+        <div class="col-8">
+            <div class="card text-center ">
+                <div class="card-header text-bg-dark">
+                  Order ID : {{ orders }} || Price: INR {{orders.amount_paid}}
+                </div>
+                <div class="card-body">
+                  Name : {{orders.full_name}}
+                  {{orders.email}} </br>
+                  {% if orders.shipped %}
+                    Shipping Date : {{orders.date_shipped}}
+                  {% else %}
+                    Ordered Date : {{orders.date_ordered}}  
+                  {% endif %}
+                  <pre>Shipping Address : </br>{{orders.shipping_address}}</pre>
+                  <h3>Products</h3>
+                  {% for item in items %}
+                  {{item.product}} - Quantity :{{item.quantity}} - Price :{{item.price}} </br>
+                  {% endfor %}  
+
+
+                </br></br>
+                  {% if not orders.shipped %}
+                 <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="shipping_status" value="true">
+                    <button type="submit" class="btn btn-success">Mark as shipped</button>
+                 </form>
+                 {% else %}
+                 <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="shipping_status" value="false">
+                    <button type="submit" class="btn btn-danger">Mark as un-shipped</button>
+                 </form>
+                 {% endif %}
+
+
+
+                </br></br>
+                <div class="card-footer text-body-secondary text-bg-dark">
+                  Order Information
+                </div>
+              </div>
+
+
+
+        </div>
+        </center>
+    </div>
+</div>            
+
+
+
+
+
+<br></br><br></br><br></br>
+{% endblock %}
